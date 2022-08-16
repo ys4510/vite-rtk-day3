@@ -15,3 +15,8 @@ export type Todo = {
   deletedAt: DateTime;
 };
 
+export type TodoInput = {
+  title: string;
+  body: string;
+};
+

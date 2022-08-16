@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { Todo, TodoId } from "../types";
+import { Todo, TodoId, TodoInput } from "../types";
 import { v4 as uuidv4 } from "uuid";
 import dayjs from "dayjs";
 
@@ -47,7 +47,7 @@ export const todosSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
-    createTodo: (state, action: PayloadAction<Todo>) => {
+    createTodo: (state, action: PayloadAction<TodoInput>) => {
       const newTodo: Todo = {
         id: uuidv4(),
         title: action.payload.title,

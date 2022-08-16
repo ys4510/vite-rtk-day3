@@ -2,7 +2,7 @@ import type { RootState } from "../../../app/store";
 import React, { useState, FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { createTodo } from "../todosSlice";
-import { Todo } from "../../types";
+import { Todo, TodoInput } from "../../types";
 
 const TodoForm: FC = () => {
   const [titleInput, settitleInput] = useState<string>("");
@@ -12,7 +12,7 @@ const TodoForm: FC = () => {
   const dispatch = useAppDispatch();
   const handleOnClick = () => {
     if (titleInput && bodyInput) {
-      const newTodo = { title: titleInput, body: bodyInput };
+      const newTodo: TodoInput = { title: titleInput, body: bodyInput };
       dispatch(createTodo(newTodo));
       settitleInput("");
       setbodyInput("");
