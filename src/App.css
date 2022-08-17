@@ -11,8 +11,6 @@
   flex-direction: column;
   align-items: start;
   justify-content: space-around;
-  /* background-color: rgba(3255,255,255, .6); */
-  /* padding: 16px; */
 }
 
 #todo-form label {
