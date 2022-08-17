@@ -1,23 +1,29 @@
-import React, { useState, FC } from "react";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useState, FC } from "react";
+import { useAppDispatch } from "../../../app/hooks";
 import { createTodo } from "../todosSlice";
 import { TodoInput } from "../../types";
+import {resetFocus} from "../utils/resetFocus"
 
 const TodoForm: FC = () => {
-  const [titleInput, settitleInput] = useState<string>("");
-  const [bodyInput, setbodyInput] = useState<string>("");
-  const todo = useAppSelector((state) => state.todos);
+  const [titleInput,setTitleInput] = useState<string>("");
+  const [bodyInput, setBodyInput] = useState<string>("");
 
   const dispatch = useAppDispatch();
-  const handleOnClick = () => {
-    if (titleInput && bodyInput) {
-      const newTodo: TodoInput = { title: titleInput, body: bodyInput };
-      dispatch(createTodo(newTodo));
-      settitleInput("");
-      setbodyInput("");
-    } else {
-      alert("タイトルと本文の両方を入力してください");
+
+  const handleOnCreate = () => {
+    try {
+      if (titleInput && bodyInput) {
+        const newTodo: TodoInput = { title: titleInput, body: bodyInput };
+        dispatch(createTodo(newTodo));
+       setTitleInput("");
+        setBodyInput("");
+      } else {
+        throw new Error('タイトルと本文の両方を入力してください');
+      }
+    } catch(error) {
+      alert(error);
     }
+    resetFocus();
   };
 
   return (
@@ -29,7 +35,7 @@ const TodoForm: FC = () => {
           name="title"
           id="title-input"
           placeholder="タイトルを入力"
-          onChange={(e) => settitleInput(e.target.value)}
+          onChange={(e) => setTitleInput(e.target.value)}
           value={titleInput}
         />
       </label>
@@ -40,11 +46,11 @@ const TodoForm: FC = () => {
           name="bodytext"
           id="body-text-input"
           placeholder="本文を入力"
-          onChange={(e) => setbodyInput(e.target.value)}
+          onChange={(e) => setBodyInput(e.target.value)}
           value={bodyInput}
         />
       </label>
-      <button id="createBtn" onClick={handleOnClick}>
+      <button id="createBtn" onClick={handleOnCreate}>
         作成
       </button>
     </div>
@@ -52,4 +58,3 @@ const TodoForm: FC = () => {
 };
 
 export default TodoForm;
-

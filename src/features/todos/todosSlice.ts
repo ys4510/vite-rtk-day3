@@ -54,7 +54,7 @@ export const todosSlice = createSlice({
         title: action.payload.title,
         body: action.payload.body,
         status: "未着手",
-        createdAt: dayjs().format('M-D-YY H:m:ss'),
+        createdAt: getCurrentDateTime(),
         updatedAt: "",
         deletedAt: "",
       };
