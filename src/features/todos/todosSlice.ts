@@ -3,6 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { Todo, TodoId, TodoInput } from "../types";
 import { v4 as uuidv4 } from "uuid";
 import dayjs from "dayjs";
+import { getCurrentDateTime } from "./utils/getCurrentDateTime";
 
 const initialState: Todo[] = [
   {
@@ -10,7 +11,7 @@ const initialState: Todo[] = [
     title: "はじめのタイトル",
     body: "はじめの本文",
     status: "未着手",
-    createdAt: dayjs().format('M-D-YY H:m:ss'),
+    createdAt: getCurrentDateTime(),
     updatedAt: "",
     deletedAt: "",
   },
@@ -19,7 +20,7 @@ const initialState: Todo[] = [
     title: "タイトル2",
     body: "本文2",
     status: "未着手",
-    createdAt: dayjs().format('M-D-YY H:m:ss'),
+    createdAt: getCurrentDateTime(),
     updatedAt: "",
     deletedAt: "12-24-21 0:30:00",
   },
@@ -28,7 +29,7 @@ const initialState: Todo[] = [
     title: "タイトル3",
     body: "本文3",
     status: "未着手",
-    createdAt: dayjs().format('M-D-YY H:m:ss'),
+    createdAt: getCurrentDateTime(),
     updatedAt: "10-10-30 1:1:1",
     deletedAt: "12-24-21 0:30:00",
   },
@@ -37,7 +38,7 @@ const initialState: Todo[] = [
     title: "タイトル4",
     body: "本文4",
     status: "未着手",
-    createdAt: dayjs().format('M-D-YY H:m:ss'),
+    createdAt: getCurrentDateTime(),
     updatedAt: "11-11-30 1:1:1",
     deletedAt: "",
   },
@@ -62,7 +63,6 @@ export const todosSlice = createSlice({
     },
     updateTodo: (state, action: PayloadAction<Todo>) => {
       const currentTodo = action.payload;
-      // console.log(currentTodo);
       state.filter((t, index )=> {
        if (currentTodo.id === t.id) {
         state[index] = currentTodo;

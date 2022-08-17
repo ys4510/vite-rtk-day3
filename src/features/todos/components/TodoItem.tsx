@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Todo } from "../../types";
 import { updateTodo, deleteTodo, restoreTodo } from "../todosSlice";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import dayjs from "dayjs";
+import { getCurrentDateTime } from "../utils/getCurrentDateTime";
 
 type Props = {
   key: string;
@@ -14,7 +14,7 @@ const TodoItem: FC<Props> = ({ todo }) => {
 
   const handleOnClickUpdate = () => {
     dispatch(
-      updateTodo({ ...todo, updatedAt: dayjs().format("M-D-YY H:m:ss") })
+      updateTodo({ ...todo, updatedAt: getCurrentDateTime() })
     );
   };
 

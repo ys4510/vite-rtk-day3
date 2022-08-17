@@ -1,8 +1,7 @@
-import type { RootState } from "../../../app/store";
 import React, { useState, FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { createTodo } from "../todosSlice";
-import { Todo, TodoInput } from "../../types";
+import { TodoInput } from "../../types";
 
 const TodoForm: FC = () => {
   const [titleInput, settitleInput] = useState<string>("");
