@@ -1,9 +1,13 @@
 import { FC, useState } from "react";
 import { useAppSelector } from "../../../app/hooks";
 import TodoItem from "./TodoItem";
+import { selectTodos, selectUpdatedTodos, selectDeletedTodos } from "../todosSlice";
+import { Todo } from "../../types";
 
 const TodoList: FC = () => {
-  const todos = useAppSelector((state) => state.todos);
+  const todos = useAppSelector((state) => state.todos.todos);
+  const updatedTodos = useAppSelector(selectUpdatedTodos);
+  const deletedTodos = useAppSelector(selectDeletedTodos);
   const [viewFlag, setViewFlag] = useState<string>("all");
 
   const handleOnChangeVF = (e: React.ChangeEvent<HTMLSelectElement>): void => {
@@ -23,7 +27,9 @@ const TodoList: FC = () => {
             onChange={(e) => handleOnChangeVF(e)}
             defaultValue={viewFlag}
           >
-            <option value="" disabled  >--フラグを選択--</option>
+            <option value="" disabled>
+              --フラグを選択--
+            </option>
             <option value="all">全て（削除済みは除く）</option>
             <option value="updated">変更済み（削除済みは除く）</option>
             <option value="deleted">削除済み</option>
@@ -44,7 +50,7 @@ const TodoList: FC = () => {
             </tr>
           </thead>
           <tbody>
-            {todos.length ? ( 
+            {todos.length !== 0 ? (
               todos.map((todo) => <TodoItem key={todo.id} todo={todo} />)
             ) : (
               <tr>
@@ -59,4 +65,3 @@ const TodoList: FC = () => {
 };
 
 export default TodoList;
-

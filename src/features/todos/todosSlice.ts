@@ -4,45 +4,43 @@ import { Todo, TodoId, TodoInput } from "../types";
 import { v4 as uuidv4 } from "uuid";
 import dayjs from "dayjs";
 import { getCurrentDateTime } from "./utils/getCurrentDateTime";
+import { RootState } from "../../app/store";
 
-const initialState: Todo[] = [
-  {
-    id: uuidv4(),
-    title: "はじめのタイトル",
-    body: "はじめの本文",
-    status: "未着手",
-    createdAt: getCurrentDateTime(),
-    updatedAt: "",
-    deletedAt: "",
-  },
-  {
-    id: uuidv4(),
-    title: "タイトル2",
-    body: "本文2",
-    status: "未着手",
-    createdAt: getCurrentDateTime(),
-    updatedAt: "",
-    deletedAt: "12-24-21 0:30:00",
-  },
-  {
-    id: uuidv4(),
-    title: "タイトル3",
-    body: "本文3",
-    status: "未着手",
-    createdAt: getCurrentDateTime(),
-    updatedAt: "10-10-30 1:1:1",
-    deletedAt: "12-24-21 0:30:00",
-  },
-  {
-    id: uuidv4(),
-    title: "タイトル4",
-    body: "本文4",
-    status: "未着手",
-    createdAt: getCurrentDateTime(),
-    updatedAt: "11-11-30 1:1:1",
-    deletedAt: "",
-  },
-];
+export type TodoState = {
+  todos: Todo[];
+};
+
+const initialState: TodoState = {
+  todos: [
+    {
+      id: uuidv4(),
+      title: "タイトル１",
+      body: "本文１",
+      status: "未着手",
+      createdAt: getCurrentDateTime(),
+      updatedAt: "",
+      deletedAt: "",
+    },
+    {
+      id: uuidv4(),
+      title: "タイトル２",
+      body: "本文２",
+      status: "未着手",
+      createdAt: getCurrentDateTime(),
+      updatedAt: "",
+      deletedAt: getCurrentDateTime(),
+    },
+    {
+      id: uuidv4(),
+      title: "タイトル３",
+      body: "本文３３３",
+      status: "未着手",
+      createdAt: getCurrentDateTime(),
+      updatedAt: getCurrentDateTime(),
+      deletedAt: "",
+    },
+  ],
+};
 
 export const todosSlice = createSlice({
   name: "todos",
@@ -59,36 +57,45 @@ export const todosSlice = createSlice({
         deletedAt: "",
       };
 
-      state.push(newTodo);
+      state.todos.push(newTodo);
     },
     updateTodo: (state, action: PayloadAction<Todo>) => {
       const currentTodo = action.payload;
-      state.filter((t, index )=> {
-       if (currentTodo.id === t.id) {
-        state[index] = currentTodo;
-       }
-      } );
+      state.todos.filter((t, index) => {
+        if (currentTodo.id === t.id) {
+          state.todos[index] = currentTodo;
+        }
+      });
     },
     deleteTodo: (state, action: PayloadAction<TodoId>) => {
       const id = action.payload;
-      state.filter((t, index )=> {
+      state.todos.filter((t, index) => {
         if (id === t.id) {
-         state[index].deletedAt = dayjs().format('M-D-YY H:m:ss');
-
+          state.todos[index].deletedAt = dayjs().format("M-D-YY H:m:ss");
         }
-       } );
+      });
     },
     restoreTodo: (state, action: PayloadAction<TodoId>) => {
       const id = action.payload;
-      state.filter((t, index )=> {
+      state.todos.filter((t, index) => {
         if (id === t.id) {
-         state[index].deletedAt = '';
-
+          state.todos[index].deletedAt = "";
         }
-       } );
+      });
     },
   },
 });
 
-export const { createTodo, updateTodo, deleteTodo, restoreTodo } = todosSlice.actions;
+
+export const selectTodos = (state: RootState) =>
+  state.todos.todos.filter((todo) => todo.deletedAt === "");
+
+  export const selectUpdatedTodos = (state: RootState) =>
+    state.todos.todos.filter((todo) => todo.deletedAt === "" && todo.updatedAt !== '');
+  
+export const selectDeletedTodos = (state: RootState) =>
+  state.todos.todos.filter((todo) => todo.deletedAt !== "");
+
+export const { createTodo, updateTodo, deleteTodo, restoreTodo } =
+  todosSlice.actions;
 export default todosSlice.reducer;

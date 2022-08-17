@@ -23,7 +23,6 @@ const TodoItem: FC<Props> = ({ todo }) => {
   };
 
   const handleOnClickRestore = () => {
-    console.log('restore')
     dispatch(restoreTodo(todo.id));
   }
 
